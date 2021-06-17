@@ -99,7 +99,7 @@ def webservice_request(nit):
 def connectionDB():
 	""" Conexión a la BD """
 	conn = pyodbc.connect(
-          'DRIVER=FreeTDS;SERVER=instancia-divisa-sql.cn7njzxefpfs.us-east-1.rds.amazonaws.com;PORT=1433;DATABASE=Divisa;UID=admin;PWD=admindivisa;')
+          'DRIVER=FreeTDS;SERVER=instancia-divisa-sql.cn7njzxefpfs.us-east-1.rds.amazonaws.com;PORT=1433;DATABASE=Divisa_Pruebas;UID=admin;PWD=admindivisa;')
 	cursor = conn.cursor()
 
 	return (conn,cursor)
@@ -1111,7 +1111,7 @@ def ing_tbl_D_Clientes(conn,cursor,tbl_D_Clientes):
 		print("tbl_D_Clientes esta vacio")
 	else:
 		for index,row in tbl_D_Clientes.iterrows():
-			cursor.execute("INSERT INTO dbo.tbl_D_Clientes([Nit_Cliente],[Duns_Cliente],[Nombre_Cliente],[Direccion_Cliente],[Municipio_Cliente],[Departamento_Cliente],[Pais_Cliente],[Telefono_Cliente],[Email_Cliente],[Direccion_Web_Cliente],[Fecha_Constitucion],[Forma_Juridica_Cliente],[Cod_ICI_Cliente],[Estado_Empresa],[Cod_Actividad_Ccial],[Actividad_Ccial],[Objeto_Social],[Tipo_Empresa], [Tamano_Empresa]) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+			cursor.execute("INSERT INTO dbo.tbl_D_Clientes([Nit_Cliente],[Duns_Cliente],[Nombre_Cliente],[Direccion_Cliente],[Municipio_Cliente],[Departamento_Cliente],[Pais_Cliente],[Telefono_Cliente],[Email_Cliente],[Direccion_Web_Cliente],[Fecha_Constitucion],[Forma_Juridica_Cliente],[Cod_ICI_Cliente],[Estado_Empresa],[Cod_Actividad_Ccial],[Actividad_Ccial],[Objeto_Social],[Tipo_Empresa], [Tamano_Empresa]) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
 			row['Nit_Cliente'],
 			row['Duns_Cliente'],
 			row['Nombre_Cliente'],
