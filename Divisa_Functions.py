@@ -43,7 +43,7 @@ def validate_route():
 
 	if not os.path.isdir(PathCarpetaConsultas):
 			os.mkdir(PathCarpetaConsultas)
-  
+
 	#if not os.path.isdir(PathCarpetaResultados):
 	#		os.mkdir(PathCarpetaResultados)
 	return True
@@ -56,7 +56,7 @@ def webservice_request(nit):
 	#PathCarpetaConsultas = Directorio +"Consultas\\"
 	PathCarpetaConsultas = "/var/www/html/flask/Consultas/"
 	#PathCarpetaConsultas = "C:\\Python_Flask\\envDivisa\\Consultas\\"
-	
+
 	#Directorio = os.getcwd() + "\\"
 	#print("###### LA RUTA ES: #####  "+Directorio)
 
@@ -90,7 +90,7 @@ def webservice_request(nit):
 
 	if not os.path.exists(PathCarpetaConsultas):
 			os.makedirs(PathCarpetaConsultas)
-	    
+
 
 	with codecs.open(PathCarpetaConsultas + nit + ".xml", 'w', encoding='latin-1') as f:
 			f.write(response)
@@ -101,7 +101,7 @@ def connectionDB():
 	conn = pyodbc.connect(
           'DRIVER=FreeTDS;SERVER=instancia-divisa-sql.cn7njzxefpfs.us-east-1.rds.amazonaws.com;PORT=1433;DATABASE=Divisa;UID=admin;PWD=admindivisa;')
 	cursor = conn.cursor()
-	
+
 	return (conn,cursor)
 
 def connectionDB_DM_Comercial():
@@ -109,7 +109,7 @@ def connectionDB_DM_Comercial():
 	conn = pyodbc.connect(
 			'DRIVER=FreeTDS;SERVER=instancia-divisa-sql.cn7njzxefpfs.us-east-1.rds.amazonaws.com;PORT=1433;DATABASE=DM_Comercial_Divisa;UID=admin;PWD=admindivisa;')
 	cursor = conn.cursor()
-	
+
 	return (conn,cursor)
 
 def Descarga_Excel():
@@ -155,10 +155,10 @@ def Break_conn(conn,cursor):
 #Funciones Base #
 ################
 def Validar_Formato_Tabla(df, DicFormatoEntrada):
-	"""Funcion que recibe un dataframe y un diccionario, 
-	   compara el df contra el diccionario y lo acomoda a ese formato, 
-	   si algun campo del df no existe lo crea con null o si le sobra lo elimina para que los 
-	   campos tengan estrictamente la estructura de entrada    
+	"""Funcion que recibe un dataframe y un diccionario,
+	   compara el df contra el diccionario y lo acomoda a ese formato,
+	   si algun campo del df no existe lo crea con null o si le sobra lo elimina para que los
+	   campos tengan estrictamente la estructura de entrada
 	"""
 	dfOrdenado = pd.DataFrame(columns=DicFormatoEntrada)
 	df = Append(df1=dfOrdenado, df2=df)
@@ -167,10 +167,10 @@ def Validar_Formato_Tabla(df, DicFormatoEntrada):
 	return df
 
 def Combinar_Celdas(df, DicFormatoEntrada):
-	"""Funcion que recibe un dataframe y un diccionario, 
-	   compara el df contra el diccionario y lo acomoda a ese formato, 
-	   si algun campo del df no existe lo crea con null o si le sobra lo elimina para que los 
-	   campos tengan estrictamente la estructura de entrada    
+	"""Funcion que recibe un dataframe y un diccionario,
+	   compara el df contra el diccionario y lo acomoda a ese formato,
+	   si algun campo del df no existe lo crea con null o si le sobra lo elimina para que los
+	   campos tengan estrictamente la estructura de entrada
 	"""
 	dfOrdenado = pd.DataFrame(columns=DicFormatoEntrada)
 	df = Append(df1=dfOrdenado, df2=df)
@@ -180,7 +180,7 @@ def Combinar_Celdas(df, DicFormatoEntrada):
 	df = df[dfOrdenado.columns]
 	df = df.astype(object).where(pd.notnull(df),None)
 	return df
-	
+
 
 def ConsultaElemento(root,PathElemento):
 	""" Extrae todos los elementos dentro del nivel espefifico """
@@ -188,13 +188,13 @@ def ConsultaElemento(root,PathElemento):
 	#PathXml = PathCarpetaConsultas +"8600259002.xml"
 	#tree = ET.parse(PathXml)
 	#root = tree.getroot()
-    
+
 	for Elemento in root.findall(PathElemento):
 		ElementoTexto = Elemento.text
 	return (ElementoTexto)
 
 
-def Extraer_Label(PathEtiqueta):	
+def Extraer_Label(PathEtiqueta):
 	""" extrae la etiqueta que será utilizada para guardar el archivo csv """
 	temporal_label = PathEtiqueta.split('/')
 	temporal_label.reverse()
@@ -202,7 +202,7 @@ def Extraer_Label(PathEtiqueta):
 
 def Extraer_Dataframe(Directorio,tree,PathDataFrame):
 	""" Extrae dataframe en csv. NO se debe agregar "/" al final del path """
-	
+
 	tags = []
 	output = []
 
@@ -221,7 +221,7 @@ def Extraer_Dataframe(Directorio,tree,PathDataFrame):
 	return df
 
 def Extraer_Dataframe_Atributos(Directorio,tree,PathDataFrame,Atributo):
-	"""Extrae toda la informacion que la funcion Extraer_Dataframe, 
+	"""Extrae toda la informacion que la funcion Extraer_Dataframe,
 	   pero además al pasarle la lista de atributos, extrae los resultados de los mismos
 	"""
 
@@ -266,7 +266,7 @@ def Extraer_Dataframe_Atributos(Directorio,tree,PathDataFrame,Atributo):
 	return df
 
 def Extraer_Dataframe_Atributos_Iterativo(PathDataFrame,Atributo):
-	""" Extrae toda la informacion que la funcion Extraer_Dataframe_Atributos, 
+	""" Extrae toda la informacion que la funcion Extraer_Dataframe_Atributos,
 		pero pero en vez de traer valores extrae de cada child los mismos atributos de la clase madre"""
 
 	df1 = Extraer_Dataframe_Atributos(Directorio,PathDataFrame,Atributo)
@@ -416,14 +416,14 @@ def Extraer_Dataframe_Evolucion(PathDataFrame, Atributo):
 	col1 = Extraer_Label(PathDataFrame)
 	col2 = col1 + "_" + Atributo
 	Dic = [col1, col2]
-	
+
 	df = pd.DataFrame(columns=Dic)
 	for root in tree.findall(PathDataFrame):
 		AnnoActual = datetime.date.today().year
 		Anno = root.get(Atributo)
 		#print(int(Anno))
-		
-		if int(Anno)>=(AnnoActual-3):	
+
+		if int(Anno)>=(AnnoActual-3):
 			lista = [(root.text, Anno)]
 			df1 = pd.DataFrame(lista, columns = Dic, index=["1"])
 			df = df.append(df1, ignore_index = True, sort=False)
@@ -444,7 +444,7 @@ def Extraer_Dataframe_Evolucion_sin_Atrib(PathDataFrame):
 
 	col1 = Extraer_Label(PathDataFrame)
 	Dic = [col1]
-	
+
 	df = pd.DataFrame(columns=Dic)
 	for root in tree.findall(PathDataFrame):
 		lista = [(root.text)]
@@ -467,7 +467,7 @@ def Extraer_Dataframe_Subtipo(PathInfoFinan):
 
 def Extraer_Dataframe_ActivoCorriente(PathActivoCorriente):
     temp = []
-    dictlist = [] 
+    dictlist = []
     df = pd.DataFrame()
     for content in tree.findall(PathActivoCorriente+"/"):
         nombres = content.tag
@@ -479,7 +479,7 @@ def Extraer_Dataframe_ActivoCorriente(PathActivoCorriente):
             dictlist.append(temp)
             #print("listado")
             #print(dictlist)
-        
+
         #df = pd.DataFrame(listado, columns = [content.tag])
 
         df1 = pd.DataFrame(columns=[content.tag + "_VALOR", content.tag], data=dictlist)
@@ -502,12 +502,12 @@ def Guardar_csv(df, PathCarpeta, NombreArchivo):
 
 def Extraer_Dataframe_1Atributo(tree,PathDataFrame, Atributo):
     """ Extraer de una ruta, todos los nombres y los valores de 1 atributo y crear
-		un dataframe con estos datos en columnas y filas respectivamente 
+		un dataframe con estos datos en columnas y filas respectivamente
  	"""
     Diccionario = {}
     columnas = []
     for root in tree.findall(PathDataFrame+"/"):
-        
+
         Atrib = root.get(Atributo)
         if Atrib != None:
             columnas.append(root.tag)
@@ -532,7 +532,7 @@ def Dict_to_Df_Financiero(Dictodf):
         #    print()
     return df
 
-    
+
 def Financiero_Activos(Fecha_Captura,Id_Cliente,tree,PathBalancesPrio, subbalance, Id_Activo, Id_Info_Financiera):
     """	Descarga los dataframes de balance de activos especificos de partidas que se necesiten por ejemplo si se pasa el argumento
     	AC entonces se extrae para cada año toda la informacion dentro de este dominio (ACC y ACL respectivamente para todos los años)"""
@@ -666,7 +666,7 @@ def Financiero_Pasivos_Patrimonio(tree,Id_Cliente,Fecha_Captura,PathBalancesPrio
                 #PASIVO y PATRIMONIO
                 dicpartida = partidas.find(partida.tag).attrib
                 dfpartida = Dict_to_Df_Financiero(dicpartida)
-                #print(dfpartida)              
+                #print(dfpartida)
                 dfactivos = Concatenar(df1=dfactivos, df2=dfpartida)
                 for child in partida.findall('./'):
                     #print("Nivel 2___________")
@@ -677,7 +677,7 @@ def Financiero_Pasivos_Patrimonio(tree,Id_Cliente,Fecha_Captura,PathBalancesPrio
                     dfchild.columns += "/" + child.tag
                     #print(dfchild)
                     dfactivos = Concatenar(df1=dfactivos, df2=dfchild)
-                    
+
                     for childsub in child.findall('./'):
                         #print("Nivel 3 ___________________")
                         #print("tag", childsub.tag)
@@ -714,7 +714,7 @@ def Financiero_Pasivos_Patrimonio(tree,Id_Cliente,Fecha_Captura,PathBalancesPrio
             df = Append(df1=df, df2=dfFinanciero)
 
             df1["Id_PasivoPatrimonio"] = Id_PasivoPatrimonio
-            df1["Id_Info_Financiera"] = Id_Info_Financiera         
+            df1["Id_Info_Financiera"] = Id_Info_Financiera
             #print(df.to_string())
         return df1
     except:
@@ -776,9 +776,9 @@ def Financiero_Resultados(tree,Id_Cliente,Fecha_Captura,PathBalancesPrio, subbal
 
 
                 #print(df1)
-                df = Append(df1=df, df2=dfFinanciero)     
+                df = Append(df1=df, df2=dfFinanciero)
                 df1["Id_Result_Ejercicio"] = Id_Result_Ejercicio
-                df1["Id_Info_Financiera"] = Id_Info_Financiera   
+                df1["Id_Info_Financiera"] = Id_Info_Financiera
                 #print(df.columns)
             return df1
         except:
@@ -814,7 +814,7 @@ def FinancieroEncabezados(Fecha_Captura,tree,PathBalancesPrio, NIT):
             dfFinanciero["Fecha_Captura"]= Fecha_Captura
             dicFinanciero = ['NormaContable', 'Fecha_Efecto', 'Duracion', 'Unidades', 'Fuente', 'Nit_Cliente', 'Fecha_Captura']
             dfFinanciero.columns = dicFinanciero
-            
+
             dfFinanciero = dfFinanciero[['Nit_Cliente', 'Fecha_Captura', 'NormaContable', 'Fecha_Efecto', 'Duracion', 'Unidades', 'Fuente']]
             df = Append(df1=df, df2=dfFinanciero)
             #df["Id_Info_Financiera"] = Id
@@ -861,14 +861,14 @@ def Actividad_Exterior(tree,PathActividad, Actividad):
                     #print(pais.text)
                     tags3.append(pais.tag)
                     texto3.append(pais.text)
-                    
+
                     dictionary = dict(zip(tags3, texto3))
                     df2 = pd.DataFrame.from_dict(dictionary, orient = 'index').T
                     dfActividadpais = Append(df1=dfActividadpais, df2=df2)
                     dicActividadpais = ["DESC_PAIS"]
                     dfActividadpais = Validar_Formato_Tabla(dfActividadpais, dicActividadpais)
                 #print(dfActividadpais)
-                
+
                 dfActividad = Concatenar(df1=dfActividad, df2=dfActividadpais)
                 dfActividad = Completar_Espacios(dfActividad)
         df = Append(df1= df,df2=dfActividad)
@@ -908,7 +908,7 @@ def Extraer_Dataframe_Actividades(tree,PathDataFrame, Dic):
  	df.columns += "/"+ Extraer_Label(PathDataFrame)
  	df = Concatenar(df1=df,df2=df_tipo)
  	return df
- 
+
 def Extraer_Dataframe_Obligaciones(tree,PathDataFrame, des_situ,des_tipo):
  	""" Extrae todas las obligaciones y los atributos tipo y descripcion de las etiquetas """
  	tags = []
@@ -937,7 +937,7 @@ def Extraer_Dataframe_Obligaciones(tree,PathDataFrame, des_situ,des_tipo):
  	dicObligaciones = ["PERIODO/OBLIGACIONES","FECHA_EJECUCION/OBLIGACIONES","FUENTE/OBLIGACIONES","situ","tipo"]
  	df = Validar_Formato_Tabla(df,dicObligaciones)
  	return df
- 
+
 def Extraer_Dataframe_Politica_Ccial(NIT,Fecha_Captura,Directorio,tree,PathDataFrame):
  	""" Extrae la informacion de la politica comercial para las ventas o las compras, se debe pasar el path completo de cada uno, determina tambien el porcentaje de nacional e internacional con manejo de errores cuando no hay politicas"""
 
@@ -1019,7 +1019,7 @@ def Financiero_Indicadores(tree,PathIndicadoresFinancieros, dic):
                 #print(child.text)
                 dfchild = pd.DataFrame([child.text], columns = [child.tag])
                 df1 = Concatenar(df1=df1,df2=dfchild)
-            
+
             df1.columns += "/" + dato.tag
             dfdato = Concatenar(df1=dfdato,df2=df1)
             #print(dfdato.to_string())
@@ -1028,7 +1028,7 @@ def Financiero_Indicadores(tree,PathIndicadoresFinancieros, dic):
             df2 = Validar_Formato_Tabla(df2,dic)
         #print(df2.to_string())
         df = Append(df1=df,df2=df2)
-    #print(df.to_string()) 
+    #print(df.to_string())
     return df
 
 """ FUNCIONES DE INSERCIÓN A BD"""
@@ -1111,7 +1111,7 @@ def ing_tbl_D_Clientes(conn,cursor,tbl_D_Clientes):
 		print("tbl_D_Clientes esta vacio")
 	else:
 		for index,row in tbl_D_Clientes.iterrows():
-			cursor.execute("INSERT INTO dbo.tbl_D_Clientes([Nit_Cliente],[Duns_Cliente],[Nombre_Cliente],[Direccion_Cliente],[Municipio_Cliente],[Departamento_Cliente],[Pais_Cliente],[Telefono_Cliente],[Email_Cliente],[Direccion_Web_Cliente],[Fecha_Constitucion],[Forma_Juridica_Cliente],[Cod_ICI_Cliente],[Estado_Empresa],[Cod_Actividad_Ccial],[Actividad_Ccial],[Objeto_Social],[Tipo_Empresa]) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+			cursor.execute("INSERT INTO dbo.tbl_D_Clientes([Nit_Cliente],[Duns_Cliente],[Nombre_Cliente],[Direccion_Cliente],[Municipio_Cliente],[Departamento_Cliente],[Pais_Cliente],[Telefono_Cliente],[Email_Cliente],[Direccion_Web_Cliente],[Fecha_Constitucion],[Forma_Juridica_Cliente],[Cod_ICI_Cliente],[Estado_Empresa],[Cod_Actividad_Ccial],[Actividad_Ccial],[Objeto_Social],[Tipo_Empresa], [Tamano_Empresa]) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
 			row['Nit_Cliente'],
 			row['Duns_Cliente'],
 			row['Nombre_Cliente'],
@@ -1129,7 +1129,8 @@ def ing_tbl_D_Clientes(conn,cursor,tbl_D_Clientes):
 			row['Cod_Actividad_Ccial'],
 			row['Actividad_Ccial'],
 			row['Objeto_Social'],
-			row['Tipo_Empresa']
+			row['Tipo_Empresa'],
+            row['Tamano_Empresa']
 			)
 			conn.commit()
 	#conn.close()
@@ -1583,7 +1584,7 @@ def save_dataframe(nit):
 	PathCarpetaConsultas = "/var/www/html/flask/Consultas/"
 	#PathCarpetaResultados = "C:\\Python_Flask\\envDivisa\\Resultados\\"
 	#PathCarpetaResultados = Directorio +"Resultados\\"
-	
+
 	NIT = nit
 	Id_Cliente = NIT
 	PathXml = PathCarpetaConsultas + NIT +".xml"
@@ -1614,7 +1615,7 @@ def save_dataframe(nit):
 
 
 	""" Referencias Comerciales """
-	
+
 	Id_Ref_Comercial = np.nan
 	PathReferenciasComerciales = "./PRODUCTO_DEVUELTO/DATOS_PROD_DEVUELTO/INFORME_FINANCIERO_INTERNACIONAL/REFCOMERCIAL/COMERCIAL/PROVEEDOR"
 	DicReferenciasComerciales = ["IDENT_EMPRESA","RAZONSOCIAL","IMPORTE","FORMA_PAGO_LOCAL","PLAZO_PAGO_LOCAL","FEC_ULT_PAGO","FEC_EFECTO","PRODUCTO","COMPOR_PAGO_LOCAL"]
@@ -1693,6 +1694,10 @@ def save_dataframe(nit):
 	PathRiesgoComercialCLinton = "./PRODUCTO_DEVUELTO/DATOS_PROD_DEVUELTO/INFORME_FINANCIERO_INTERNACIONAL/EVALUACION/OPINION_CLIENTE"
 	RiesgoComercialCLinton = ConsultaElemento(root,PathRiesgoComercialCLinton)
 	tbl_F_Riesgo_Comercial["Info_Complementaria"] = RiesgoComercialCLinton
+
+    PathTamanoEmpresa = "./PRODUCTO_DEVUELTO/DATOS_PROD_DEVUELTO/INFORME_FINANCIERO_INTERNACIONAL/EVALUACION/SINTESIS_TIPOLOGIA"
+    Tamano_Empresa = ConsultaElemento(root, PathTamanoEmpresa)
+    tbl_D_Clientes["Tamano_Empresa"] = Tamano_Empresa
 
 	Dictbl_F_Riesgo_Comercial = ['Fecha_Efecto', 'Nit_Cliente', 'Situacion_Financiera', 'Evolucion_Empresa', 'Calificacion_Informa', 'Riesgo_Informa', 'Incidentes', 'Info_Complementaria', 'Fecha_Captura']
 	tbl_F_Riesgo_Comercial = Validar_Formato_Tabla(tbl_F_Riesgo_Comercial,Dictbl_F_Riesgo_Comercial)
@@ -1806,6 +1811,7 @@ def save_dataframe(nit):
 	tbl_D_Clientes = Validar_Formato_Tabla(tbl_D_Clientes,Dictbl_D_Clientes)
 
 	#Guardar_csv(tbl_D_Clientes, PathCarpetaResultados, f"{NIT}_tbl_D_Clientes.csv")
+
 	ing_tbl_D_Clientes(conn,cursor,tbl_D_Clientes)
 
 	"""###tbl_F_Info_Financiera"""
@@ -1828,7 +1834,7 @@ def save_dataframe(nit):
 	ing_tbl_F_Info_Financiera(conn,cursor,tbl_F_Info_Financiera)
 
 	"""###tbl_F_Activos"""
-	
+
 	BalanceActivos = "AC"
 	Id_Activo = None
 
@@ -1964,7 +1970,7 @@ def save_dataframe(nit):
 	dfInfoCorporativa_Capital_Actual = Extraer_Dataframe(Directorio,tree,PathInformacionComercial_Capital_Actual)
 
 	dfInfoCorporativa_Capital_Anterior = Extraer_Dataframe(Directorio,tree,PathInformacionComercial_Capital_Anterior)
-	
+
 	dicInfoCorporativa_Capital = ['IMPORTE', 'FEC_EFECTO']
 
 	dfInfoCorporativa_Capital_Actual = Validar_Formato_Tabla(dfInfoCorporativa_Capital_Actual, dicInfoCorporativa_Capital)
@@ -2279,7 +2285,7 @@ def save_dataframe(nit):
 
 	#print("LOS VALORES SON")
 	#print(tbl_F_Indicadores_Financieros)
-	
+
 
 	ing_tbl_F_Indicadores_Financieros(conn,cursor,tbl_F_Indicadores_Financieros)
 
